@@ -27,6 +27,8 @@ export class LoginFormComponent {
     if (!result.isOk) {
       this.loading = false;
       notify(result.message, 'error', 2000);
+    } else {
+      notify(result.message, 'success', 2000);
     }
   }
 

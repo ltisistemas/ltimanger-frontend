@@ -6,8 +6,20 @@ import { HomeComponent } from './pages/home/home.component';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { TasksComponent } from './pages/tasks/tasks.component';
 import { DxDataGridModule, DxFormModule } from 'devextreme-angular';
+import { AdminempresasComponent } from './pages/adminempresas/adminempresas.component';
+import { EmpresasComponent } from './admin/empresas/empresas.component';
 
 const routes: Routes = [
+  {
+    path: 'admin/empresas',
+    component: EmpresasComponent,
+    canActivate: [ AuthGuardService ]
+  },
+  {
+    path: 'pages/adminempresas',
+    component: AdminempresasComponent,
+    canActivate: [ AuthGuardService ]
+  },
   {
     path: 'tasks',
     component: TasksComponent,
@@ -53,6 +65,6 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes, { useHash: true }), DxDataGridModule, DxFormModule],
   providers: [AuthGuardService],
   exports: [RouterModule],
-  declarations: [HomeComponent, ProfileComponent, TasksComponent]
+  declarations: [HomeComponent, ProfileComponent, TasksComponent, AdminempresasComponent, EmpresasComponent]
 })
 export class AppRoutingModule { }

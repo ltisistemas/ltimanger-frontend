@@ -1,9 +1,20 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { CanActivate, Router, ActivatedRouteSnapshot } from '@angular/router';
+import { environment } from 'src/environments/environment';
 
 export interface IUser {
-  email: string;
-  avatarUrl?: string
+  id?: number | null,
+  name?: string | null,
+  email?: string | null,
+  reset_token?: any | null,
+  profile?: string | null,
+  last_logged_at?: any | null,
+  deleted_at?: any | null,
+  created_at?: Date | null,
+  updated_at?: Date | null,
+  token?: string,
+  avatarUrl?: string | null,
 }
 
 const defaultPath = '/';
@@ -14,9 +25,16 @@ const defaultUser = {
 
 @Injectable()
 export class AuthService {
-  private _user: IUser | null = null; // defaultUser;
+  private _user: IUser | null = {}; // defaultUser;
   get loggedIn(): boolean {
-    return !!this._user;
+    return this.userLogged;
+  }
+
+  public get userLogged(): any {
+    const u: any = localStorage.getItem('user_logged')
+    const usr = JSON.parse(u)
+
+    return !!usr ? true : false
   }
 
   private _lastAuthenticatedPath: string = defaultPath;
@@ -24,25 +42,39 @@ export class AuthService {
     this._lastAuthenticatedPath = value;
   }
 
-  constructor(private router: Router) { }
+  constructor(private router: Router, private http: HttpClient) { }
 
   async logIn(email: string, password: string) {
 
     try {
       // Send request
       console.log(email, password);
-      this._user = { ...defaultUser, email };
-      this.router.navigate([this._lastAuthenticatedPath]);
+      const url = `${environment.base_url}login`
+      const { data, code }: any = await this.http.post<IUser>(url, { email, password }).toPromise()
 
+      const avatarUrl = 'https://milvus.online/wp-content/uploads/2017/05/avatar-default.jpg'
+      this._user = { ...data, avatarUrl };
+      localStorage.setItem('user_logged', JSON.stringify(this._user))
+      localStorage.setItem('user_token', this._user?.token ?? '')
+
+      if (code !== 200) {
+        return {
+          isOk: false,
+          message: "Usuário / Senha não encontrados"
+        };
+      }
+
+      this.router.navigate([this._lastAuthenticatedPath]);
       return {
         isOk: true,
-        data: this._user
+        data: this._user,
+        message: "Login realizado com sucesso"
       };
     }
     catch {
       return {
         isOk: false,
-        message: "Authentication failed"
+        message: "Usuário / Senha não encontrados"
       };
     }
   }
@@ -53,7 +85,7 @@ export class AuthService {
 
       return {
         isOk: true,
-        data: this._user
+        data: JSON.parse(localStorage.getItem('user_logged') || '')
       };
     }
     catch {
@@ -118,6 +150,8 @@ export class AuthService {
 
   async logOut() {
     this._user = null;
+    localStorage.removeItem('user_logged')
+    localStorage.removeItem('user_token')
     this.router.navigate(['/login-form']);
   }
 }
@@ -136,18 +170,23 @@ export class AuthGuardService implements CanActivate {
     ].includes(route.routeConfig?.path || defaultPath);
 
     if (isLoggedIn && isAuthForm) {
+      console.log('> Auth 1.0')
       this.authService.lastAuthenticatedPath = defaultPath;
       this.router.navigate([defaultPath]);
       return false;
     }
 
     if (!isLoggedIn && !isAuthForm) {
+      console.log('> Auth 2.0')
       this.router.navigate(['/login-form']);
     }
 
     if (isLoggedIn) {
+      console.log('> Auth 3.0', route.routeConfig?.path || defaultPath)
       this.authService.lastAuthenticatedPath = route.routeConfig?.path || defaultPath;
     }
+
+    console.log('> isLoggedIn || isAuthForm', isLoggedIn, isAuthForm)
 
     return isLoggedIn || isAuthForm;
   }

@@ -50,7 +50,7 @@ export class SideNavOuterToolbarComponent implements OnInit {
 
     this.menuMode = isLarge ? 'shrink' : 'overlap';
     this.menuRevealMode = isXSmall ? 'slide' : 'expand';
-    this.minMenuSize = 60; // isXSmall ? 0 : 60;
+    this.minMenuSize = isXSmall ? 0 : 60;
     this.shaderEnabled = !isLarge;
   }
 
@@ -65,21 +65,27 @@ export class SideNavOuterToolbarComponent implements OnInit {
   navigationChanged(event: ItemClickEvent) {
     const path = event.itemData.path;
     const pointerEvent = event.event;
+    console.log(path)
 
     if (path && this.menuOpened) {
+      console.log('1.0')
       if (event.node?.selected) {
+        console.log('1.1')
         pointerEvent?.preventDefault();
       } else {
+        console.log('1.2')
         this.router.navigate([path]);
         this.scrollView.instance.scrollTo(0);
       }
 
       if (this.hideMenuAfterNavigation) {
+        console.log('1.3')
         this.temporaryMenuOpened = false;
         this.menuOpened = false;
         pointerEvent?.stopPropagation();
       }
     } else {
+      console.log('2.0')
       pointerEvent?.preventDefault();
     }
   }
