@@ -9,6 +9,13 @@ import { UnauthenticatedContentModule } from './unauthenticated-content';
 import { AppRoutingModule } from './app-routing.module';
 import { HttpClientModule } from '@angular/common/http'
 
+import { DxSelectBoxModule, DxDropDownBoxModule } from 'devextreme-angular';
+import { CompanyService } from './shared/services/company/company.service';
+import { InterceptorModule } from './shared/services/interceptors/interceptor.module';
+import { IbgeService } from './shared/services/generals/ibge.service';
+
+
+
 @NgModule({
   declarations: [
     AppComponent
@@ -16,6 +23,7 @@ import { HttpClientModule } from '@angular/common/http'
   imports: [
     BrowserModule,
     HttpClientModule,
+    InterceptorModule,
     SideNavOuterToolbarModule,
     SideNavInnerToolbarModule,
     SingleCardModule,
@@ -25,9 +33,11 @@ import { HttpClientModule } from '@angular/common/http'
     ChangePasswordFormModule,
     LoginFormModule,
     UnauthenticatedContentModule,
-    AppRoutingModule
+    DxSelectBoxModule,
+    DxDropDownBoxModule,
+    AppRoutingModule,
   ],
-  providers: [AuthService, ScreenService, AppInfoService],
+  providers: [AuthService, ScreenService, AppInfoService, CompanyService, IbgeService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

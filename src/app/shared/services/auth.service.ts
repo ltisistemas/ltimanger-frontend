@@ -48,7 +48,6 @@ export class AuthService {
 
     try {
       // Send request
-      console.log(email, password);
       const url = `${environment.base_url}login`
       const { data, code }: any = await this.http.post<IUser>(url, { email, password }).toPromise()
 
@@ -99,7 +98,6 @@ export class AuthService {
   async createAccount(email: string, password: string) {
     try {
       // Send request
-      console.log(email, password);
 
       this.router.navigate(['/create-account']);
       return {
@@ -117,7 +115,6 @@ export class AuthService {
   async changePassword(email: string, recoveryCode: string) {
     try {
       // Send request
-      console.log(email, recoveryCode);
 
       return {
         isOk: true
@@ -134,7 +131,6 @@ export class AuthService {
   async resetPassword(email: string) {
     try {
       // Send request
-      console.log(email);
 
       return {
         isOk: true
@@ -170,23 +166,18 @@ export class AuthGuardService implements CanActivate {
     ].includes(route.routeConfig?.path || defaultPath);
 
     if (isLoggedIn && isAuthForm) {
-      console.log('> Auth 1.0')
       this.authService.lastAuthenticatedPath = defaultPath;
       this.router.navigate([defaultPath]);
       return false;
     }
 
     if (!isLoggedIn && !isAuthForm) {
-      console.log('> Auth 2.0')
       this.router.navigate(['/login-form']);
     }
 
     if (isLoggedIn) {
-      console.log('> Auth 3.0', route.routeConfig?.path || defaultPath)
       this.authService.lastAuthenticatedPath = route.routeConfig?.path || defaultPath;
     }
-
-    console.log('> isLoggedIn || isAuthForm', isLoggedIn, isAuthForm)
 
     return isLoggedIn || isAuthForm;
   }
