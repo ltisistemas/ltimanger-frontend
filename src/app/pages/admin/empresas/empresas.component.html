@@ -1,18 +1,45 @@
 <h2 class="content-block">Empresas</h2>
 <div class="content-block">
   <div class="dx-card responsive-paddings">
-    <dx-data-grid #dataGrid id="dataGrid" keyExpr="id" [dataSource]="datasource" [showBorders]="true"
-      (onEditorPreparing)="onEditorPreparing($event)" (onEditingStart)="onEditingStart($event)">
-      <dxo-editing mode="popup" [allowUpdating]="true" [allowDeleting]="true" [useIcons]="true">
+    <dx-data-grid
+      #dataGrid
+      id="dataGrid"
+      keyExpr="id"
+      [dataSource]="datasource"
+      [showBorders]="true"
+      (onEditorPreparing)="onEditorPreparing($event)"
+      (onEditingStart)="onEditingStart($event)"
+      [showColumnLines]="false"
+      [showRowLines]="true"
+      [showBorders]="true"
+      [rowAlternationEnabled]="true"
+      (onToolbarPreparing)="onToolbarPreparing($event)"
+    >
+      <dxo-editing
+        mode="popup"
+        [allowUpdating]="true"
+        [allowDeleting]="true"
+        [useIcons]="true"
+      >
         <dxo-popup title="Editar empresa" [showTitle]="true"></dxo-popup>
         <dxo-form labelLocation="top" [formData]="formData">
-          <dxi-item itemType="group" [colCount]="2" [colSpan]="2" caption="Dados cadastrais">
+          <dxi-item
+            itemType="group"
+            [colCount]="2"
+            [colSpan]="2"
+            caption="Dados cadastrais"
+          >
             <dxi-item dataField="alias" [colSpan]="2"></dxi-item>
             <dxi-item dataField="razao"></dxi-item>
             <dxi-item dataField="fantasia"></dxi-item>
             <dxi-item dataField="cnpj_cpf"></dxi-item>
           </dxi-item>
-          <dxi-item itemType="group" [colCount]="4" [colSpan]="2" caption="Endereço">
+          <dxi-item
+            itemType="group"
+            [colCount]="4"
+            [colSpan]="2"
+            caption="Endereço"
+          >
             <dxi-item dataField="zipcode"></dxi-item>
             <dxi-item dataField="street"></dxi-item>
             <dxi-item dataField="number"></dxi-item>
@@ -21,37 +48,101 @@
             <dxi-item dataField="state_code"></dxi-item>
             <dxi-item dataField="city_code"></dxi-item>
           </dxi-item>
-          <dxi-item itemType="group" [colCount]="2" [colSpan]="2" caption="Dados Fiscais">
+          <dxi-item
+            itemType="group"
+            [colCount]="2"
+            [colSpan]="2"
+            caption="Dados Fiscais"
+          >
             <dxi-item dataField="incricao_estadual"></dxi-item>
             <dxi-item dataField="incricao_municipal"></dxi-item>
           </dxi-item>
         </dxo-form>
       </dxo-editing>
 
-      <dxi-column type="buttons" caption="Ação" [width]="110">
-        <dxi-button name="edit"></dxi-button>
-        <dxi-button name="delete"></dxi-button>
-        <dxi-button hint="Incluir / Excluir usuários" icon="user"></dxi-button>
-      </dxi-column>
       <dxi-column dataField="id" caption="id" [visible]="false"></dxi-column>
       <dxi-column dataField="alias" caption="Apelido"></dxi-column>
       <dxi-column dataField="razao" caption="Razão Social"></dxi-column>
       <dxi-column dataField="fantasia" caption="Nome Fantasia"></dxi-column>
       <dxi-column dataField="cnpj_cpf" caption="CPF / CNPJ"></dxi-column>
-      <dxi-column dataField="zipcode" caption="C.E.P." [visible]="false"></dxi-column>
-      <dxi-column dataField="street" caption="Rua" [visible]="false"></dxi-column>
-      <dxi-column dataField="number" caption="Nº" [visible]="false"></dxi-column>
-      <dxi-column dataField="complement" caption="Complemento" [visible]="false"></dxi-column>
-      <dxi-column dataField="neighborhood" caption="Bairro" [visible]="false"></dxi-column>
+      <dxi-column
+        dataField="zipcode"
+        caption="C.E.P."
+        [visible]="false"
+      ></dxi-column>
+      <dxi-column
+        dataField="street"
+        caption="Rua"
+        [visible]="false"
+      ></dxi-column>
+      <dxi-column
+        dataField="number"
+        caption="Nº"
+        [visible]="false"
+      ></dxi-column>
+      <dxi-column
+        dataField="complement"
+        caption="Complemento"
+        [visible]="false"
+      ></dxi-column>
+      <dxi-column
+        dataField="neighborhood"
+        caption="Bairro"
+        [visible]="false"
+      ></dxi-column>
+      <dxi-column
+        dataField="state_code"
+        caption="Estado"
+        [visible]="false"
+        [setCellValue]="setStateValue"
+      >
+        <dxo-lookup
+          [dataSource]="estados"
+          valueExpr="id"
+          displayExpr="nome"
+        ></dxo-lookup>
+      </dxi-column>
       <dxi-column dataField="city_code" caption="Cidade" [visible]="false">
-        <dxo-lookup [dataSource]="cidades" valueExpr="id" displayExpr="nome"></dxo-lookup>
+        <dxo-lookup
+          [dataSource]="cidades"
+          valueExpr="id"
+          displayExpr="nome"
+        ></dxo-lookup>
       </dxi-column>
-      <dxi-column dataField="state_code" caption="Estado" [visible]="false">
-        <dxo-lookup [dataSource]="estados" valueExpr="id" displayExpr="nome"></dxo-lookup>
+      <dxi-column
+        dataField="incricao_estadual"
+        caption="Incrição Estadual"
+        [visible]="false"
+      ></dxi-column>
+      <dxi-column
+        dataField="incricao_municipal"
+        caption="Incrição Municipal"
+        [visible]="false"
+      ></dxi-column>
+      <dxi-column
+        dataField="created_at"
+        caption="Dt. Inclusão"
+        dataType="date"
+      ></dxi-column>
+      <dxi-column type="buttons" caption="Ação" [width]="110">
+        <dxi-button name="edit"></dxi-button>
+        <dxi-button name="delete"></dxi-button>
+        <dxi-button hint="Incluir / Excluir usuários" icon="user" [onClick]="showUsers" ></dxi-button>
       </dxi-column>
-      <dxi-column dataField="incricao_estadual" caption="Incrição Estadual" [visible]="false"></dxi-column>
-      <dxi-column dataField="incricao_municipal" caption="Incrição Municipal" [visible]="false"></dxi-column>
-      <dxi-column dataField="created_at" caption="Dt. Inclusão" dataType="date"></dxi-column>
     </dx-data-grid>
   </div>
 </div>
+
+<dx-popup
+  [width]="dimensions.width"
+  [height]="dimensions.height"
+  [showTitle]="true"
+  [title]="'['+selected.alias+'] - '+selected.razao"
+  [dragEnabled]="true"
+  [closeOnOutsideClick]="true"
+  [(visible)]="popupVisible"
+>
+  <div *dxTemplate="let data of 'content'">
+    <app-empresa-usuarios [empresa]="selected"></app-empresa-usuarios>
+  </div>
+</dx-popup>

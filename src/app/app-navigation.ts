@@ -13,5 +13,5 @@ export const navigation = [
         path: '/pages/admin/empresas',
       }
     ]
-  }
+  },
 ];

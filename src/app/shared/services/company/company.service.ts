@@ -50,10 +50,15 @@ export class CompanyService {
       });
   }
 
-  private async store(values: any[]) {
-
+  private async store(values: any) {
+    console.log('> store', values)
+    const url = `${environment.base_url}auth/admin/companies`;
+    return this.http.post(url, values).toPromise()
   }
-  private async update(key: any, values: any[]) {
+  private async update(key: any, values: any) {
+    const url = `${environment.base_url}auth/admin/companies/${key}`;
+    console.log('> update:', key, values)
 
+    return this.http.put(url, values).toPromise()
   }
 }
