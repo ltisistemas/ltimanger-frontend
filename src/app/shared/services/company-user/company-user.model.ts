@@ -1,0 +1,16 @@
+export interface CompanyUserModelService {
+  id?: string | null,
+  company_id?: string | null,
+  contract_number?: string | null,
+  contract_start_date?: string | null,
+  contract_finish_date?: string | null,
+  contract_type?: string | null,
+  name?: string | null,
+  email?: string | null,
+  cpf?: string | null,
+  password: string | null,
+  profile?: string | null,
+  reset_token?: string | null,
+  created_at?: string | null,
+  updated_at?: string | null,
+}

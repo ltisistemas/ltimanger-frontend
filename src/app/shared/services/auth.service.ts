@@ -14,6 +14,7 @@ export interface IUser {
   created_at?: Date | null,
   updated_at?: Date | null,
   token?: string,
+  company_id?: any | null,
   avatarUrl?: string | null,
 }
 
@@ -76,6 +77,17 @@ export class AuthService {
         message: "Usuário / Senha não encontrados"
       };
     }
+  }
+
+  public get getUserLogged(): IUser {
+    const u = JSON.parse(localStorage.getItem('user_logged') || '')
+    return u === '' ? null : u
+  }
+
+  public get isAdmin() {
+    const userLogged = this.getUserLogged;
+
+    return !!!userLogged.hasOwnProperty('company_id')
   }
 
   async getUser() {
@@ -180,5 +192,15 @@ export class AuthGuardService implements CanActivate {
     }
 
     return isLoggedIn || isAuthForm;
+  }
+}
+@Injectable()
+export class AdminGuardService implements CanActivate {
+  constructor(private router: Router, private authService: AuthService) { }
+
+  canActivate(route: ActivatedRouteSnapshot): boolean {
+    const userLogged = this.authService.getUserLogged;
+
+    return !!userLogged.hasOwnProperty('company_id')
   }
 }

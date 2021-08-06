@@ -1,5 +1,103 @@
 <div class="content-block">
-    <div class="dx-card responsive-paddings">
+  <div class="dx-card responsive-paddings w-100">
+    <dx-data-grid
+      #dataGrid
+      id="dataGrid"
+      keyExpr="id"
+      [dataSource]="datasource"
+      [showBorders]="true"
+      [showColumnLines]="false"
+      [showRowLines]="true"
+      [showBorders]="true"
+      [rowAlternationEnabled]="true"
+      (onToolbarPreparing)="onToolbarPreparing($event)"
+      (onEditingStart)="onEditingStart($event)"
+      (onRowInserting)="onRowInserting($event)"
+    >
+      <dxo-editing
+        mode="form"
+        [allowUpdating]="true"
+        [allowDeleting]="true"
+        [useIcons]="true"
+      >
+        <dxo-popup title="Manutenção de usuário" [showTitle]="true"></dxo-popup>
+        <dxo-form labelLocation="top" [formData]="formData" [colCount]="2">
+          <!-- <dx-scroll-view width="100%" height="100%"> -->
+          <dxi-item
+            itemType="group"
+            caption="Dados cadastrais"
+            [colCount]="2"
+            [colSpan]="2"
+          >
+            <dxi-item dataField="name" [colSpan]="2"></dxi-item>
+            <dxi-item dataField="email"></dxi-item>
+            <dxi-item dataField="cpf"></dxi-item>
+            <dxi-item dataField="password"></dxi-item>
+            <dxi-item dataField="profile"></dxi-item>
+          </dxi-item>
+          <dxi-item
+            itemType="group"
+            caption="Dados contratuais"
+            [colCount]="2"
+            [colSpan]="2"
+          >
+            <dxi-item dataField="contract_number"></dxi-item>
+            <dxi-item dataField="contract_start_date"></dxi-item>
+            <dxi-item dataField="contract_finish_date"></dxi-item>
+            <dxi-item dataField="contract_type"></dxi-item>
 
-    </div>
+            <dxi-item dataField="contract_number"></dxi-item>
+          </dxi-item>
+          <!-- </dx-scroll-view> -->
+        </dxo-form>
+      </dxo-editing>
+
+      <dxi-column dataField="id" caption="id" [visible]="false"></dxi-column>
+      <dxi-column dataField="company_id"></dxi-column>
+      <dxi-column dataField="name" caption="Nome completo"></dxi-column>
+      <dxi-column dataField="email" caption="E-mail"></dxi-column>
+      <dxi-column dataField="cpf" caption="CPF"></dxi-column>
+      <dxi-column
+        dataField="password"
+        caption="Senha"
+        dataType="password"
+        [visible]="false"
+      ></dxi-column>
+      <dxi-column dataField="profile" caption="Perfil">
+        <dxo-lookup
+          [dataSource]="dsPerfil"
+          valueExpr="id"
+          displayExpr="describe"
+        ></dxo-lookup>
+      </dxi-column>
+
+      <dxi-column
+        dataField="contract_number"
+        caption="Nº Contrato"
+        [visible]="false"
+      ></dxi-column>
+      <dxi-column
+        dataField="contract_start_date"
+        caption="Data inicio Contrato"
+        dataType="date"
+      ></dxi-column>
+      <dxi-column
+        dataField="contract_finish_date"
+        caption="Data Fim Contrato"
+        dataType="date"
+        [visible]="false"
+      ></dxi-column>
+      <dxi-column
+        dataField="contract_type"
+        caption="Tipo Contrato"
+        [visible]="false"
+      >
+        <dxo-lookup
+          [dataSource]="dsTipoContrato"
+          valueExpr="id"
+          displayExpr="describe"
+        ></dxo-lookup>
+      </dxi-column>
+    </dx-data-grid>
+  </div>
 </div>

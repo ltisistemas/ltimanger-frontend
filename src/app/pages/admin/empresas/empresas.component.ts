@@ -32,8 +32,8 @@ export class EmpresasComponent implements OnInit {
 
   constructor(private service: CompanyService, private ibge: IbgeService, private screen: ScreenService) {
     this.loadData();
-    this.dimensions.width = document.body.offsetWidth * 0.85
-    this.dimensions.height = document.body.offsetHeight * 0.85
+    this.dimensions.width = document.body.offsetWidth * 0.98
+    this.dimensions.height = document.body.offsetHeight * 0.98
 
   }
 
@@ -128,7 +128,10 @@ export class EmpresasComponent implements OnInit {
   private _showUsers(e: any) {
     const { row } = e;
     const { data } = row;
+    this.selected = {};
     this.selected = data;
+
+    this.popupVisible = false;
     this.popupVisible = true;
   }
   private async onValueChangedEstados(id: any) {
@@ -144,5 +147,9 @@ export class EmpresasComponent implements OnInit {
           a.nome > b.nome ? 1 : -1
         )) ||
       [];
+  }
+
+  public get isEmpty() {
+    return !!Object.keys(this.selected).length
   }
 }

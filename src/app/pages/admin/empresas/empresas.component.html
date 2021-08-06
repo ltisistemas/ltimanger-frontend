@@ -127,22 +127,27 @@
       <dxi-column type="buttons" caption="Ação" [width]="110">
         <dxi-button name="edit"></dxi-button>
         <dxi-button name="delete"></dxi-button>
-        <dxi-button hint="Incluir / Excluir usuários" icon="user" [onClick]="showUsers" ></dxi-button>
+        <dxi-button
+          hint="Incluir / Excluir usuários"
+          icon="user"
+          [onClick]="showUsers"
+        ></dxi-button>
       </dxi-column>
     </dx-data-grid>
   </div>
 </div>
-
-<dx-popup
+<div *ngIf="isEmpty">
+  <dx-popup
   [width]="dimensions.width"
   [height]="dimensions.height"
   [showTitle]="true"
-  [title]="'['+selected.alias+'] - '+selected.razao"
-  [dragEnabled]="true"
-  [closeOnOutsideClick]="true"
+  [title]="'[' + selected.alias + '] - ' + selected.razao"
+  [dragEnabled]="false"
+  [closeOnOutsideClick]="false"
   [(visible)]="popupVisible"
 >
   <div *dxTemplate="let data of 'content'">
     <app-empresa-usuarios [empresa]="selected"></app-empresa-usuarios>
   </div>
 </dx-popup>
+</div>

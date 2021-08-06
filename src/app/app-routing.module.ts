@@ -6,7 +6,7 @@ import {
   CreateAccountFormComponent,
   ChangePasswordFormComponent,
 } from './shared/components';
-import { AuthGuardService } from './shared/services';
+import { AdminGuardService, AuthGuardService } from './shared/services';
 import { HomeComponent } from './pages/home/home.component';
 import {
   DxDataGridModule,
@@ -15,9 +15,12 @@ import {
   DxTemplateModule,
   DxPopupModule,
   DxFormModule,
+  DxScrollViewModule,
+  DxTabPanelModule
 } from 'devextreme-angular';
 import { EmpresasComponent } from './pages/admin/empresas/empresas.component';
 import { EmpresaUsuariosComponent } from './pages/admin/empresas/empresa-usuarios/empresa-usuarios.component';
+import { CommonModule } from '@angular/common';
 
 const routes: Routes = [
   {
@@ -64,14 +67,17 @@ const routes: Routes = [
 @NgModule({
   imports: [
     RouterModule.forRoot(routes, { useHash: true }),
+    CommonModule,
     DxDataGridModule,
     DxSelectBoxModule,
     DxDropDownBoxModule,
     DxTemplateModule,
     DxPopupModule,
     DxFormModule,
+    DxScrollViewModule,
+    DxTabPanelModule,
   ],
-  providers: [AuthGuardService],
+  providers: [AuthGuardService, AdminGuardService],
   exports: [RouterModule],
   declarations: [HomeComponent, EmpresasComponent, EmpresaUsuariosComponent],
 })
