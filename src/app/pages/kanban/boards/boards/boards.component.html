@@ -1,0 +1,52 @@
+<h2 class="content-block">Quadros da empresa</h2>
+<div class="content-block">
+  <div class="dx-card responsive-paddings">
+    <div class="dx-item-container">
+      <div *ngFor="let board of boards" class="dx-item-custom">
+        <dx-button
+          [stylingMode]="board.stylingMode ?? ''"
+          [text]="board.title ?? ''"
+          [type]="board.type ?? ''"
+          [width]="200"
+          [height]="100"
+          (onClick)="board.handle($event)"
+        >
+        </dx-button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<dx-popup
+  [width]="300"
+  [height]="150"
+  [showTitle]="true"
+  title="Criar novo quadro"
+  [dragEnabled]="false"
+  [closeOnOutsideClick]="false"
+  [(visible)]="popupVisible"
+>
+  <dxi-toolbar-item
+    widget="dxButton"
+    toolbar="bottom"
+    location="before"
+    [options]="emailButtonOptions"
+  >
+  </dxi-toolbar-item>
+  <dxi-toolbar-item
+    widget="dxButton"
+    toolbar="bottom"
+    location="after"
+    [options]="closeButtonOptions"
+  >
+  </dxi-toolbar-item>
+  <div *dxTemplate="let data of 'content'">
+    <dxo-position my="center"> </dxo-position>
+    <dx-form [formData]="formData" labelLocation="top">
+      <dxi-item
+        dataField="title"
+        [label]="{ text: 'Nome do quadro' }"
+      ></dxi-item>
+    </dx-form>
+  </div>
+</dx-popup>

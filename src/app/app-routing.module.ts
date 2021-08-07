@@ -16,13 +16,21 @@ import {
   DxPopupModule,
   DxFormModule,
   DxScrollViewModule,
-  DxTabPanelModule
+  DxTabPanelModule,
+  DxTileViewModule,
+  DxButtonModule
 } from 'devextreme-angular';
 import { EmpresasComponent } from './pages/admin/empresas/empresas.component';
 import { EmpresaUsuariosComponent } from './pages/admin/empresas/empresa-usuarios/empresa-usuarios.component';
 import { CommonModule } from '@angular/common';
+import { BoardsComponent } from './pages/kanban/boards/boards/boards.component';
 
 const routes: Routes = [
+  {
+    path: 'pages/kanban/boards/boards',
+    component: BoardsComponent,
+    canActivate: [ AuthGuardService ]
+  },
   {
     path: 'pages/admin/empresa-usuarios',
     component: EmpresaUsuariosComponent,
@@ -76,9 +84,11 @@ const routes: Routes = [
     DxFormModule,
     DxScrollViewModule,
     DxTabPanelModule,
+    DxTileViewModule,
+    DxButtonModule,
   ],
   providers: [AuthGuardService, AdminGuardService],
   exports: [RouterModule],
-  declarations: [HomeComponent, EmpresasComponent, EmpresaUsuariosComponent],
+  declarations: [HomeComponent, EmpresasComponent, EmpresaUsuariosComponent, BoardsComponent],
 })
 export class AppRoutingModule {}

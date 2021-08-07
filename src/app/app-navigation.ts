@@ -16,6 +16,19 @@ export const navigation = [
     ]
   },
   {
+    text: 'Projetos',
+    icon: 'folder',
+    items: [
+      {
+        text: 'Quadros',
+        path: '/pages/kanban/boards/boards',
+      },
+      {
+        text: 'Relatorios',
+      }
+    ]
+  },
+  {
     text: 'Administração',
     icon: 'folder',
     isAdmin: true,

@@ -27,12 +27,15 @@ import {
   DxFormModule,
   DxScrollViewModule,
   DxTabPanelModule,
+  DxTileViewModule,
+  DxButtonModule,
 } from 'devextreme-angular';
 import { CompanyService } from './shared/services/company/company.service';
 import { InterceptorModule } from './shared/services/interceptors/interceptor.module';
 import { IbgeService } from './shared/services/generals/ibge.service';
 import { CompanyUserService } from './shared/services/company-user/company-user.service';
 import { CommonModule } from '@angular/common';
+import { BoardService } from './shared/services/boards/boards.service';
 
 @NgModule({
   declarations: [AppComponent],
@@ -46,6 +49,8 @@ import { CommonModule } from '@angular/common';
     DxFormModule,
     DxScrollViewModule,
     DxTabPanelModule,
+    DxTileViewModule,
+    DxButtonModule,
     HttpClientModule,
     InterceptorModule,
     SideNavOuterToolbarModule,
@@ -66,6 +71,7 @@ import { CommonModule } from '@angular/common';
     CompanyService,
     IbgeService,
     CompanyUserService,
+    BoardService,
   ],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
