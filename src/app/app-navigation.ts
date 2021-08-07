@@ -39,4 +39,9 @@ export const navigation = [
       }
     ]
   },
+  // {
+  //   text: 'Lists',
+  //   path: '/pages/kanban/boards/lists',
+  //   icon: 'folder'
+  // },
 ];

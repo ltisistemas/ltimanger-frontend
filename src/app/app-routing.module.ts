@@ -24,8 +24,14 @@ import { EmpresasComponent } from './pages/admin/empresas/empresas.component';
 import { EmpresaUsuariosComponent } from './pages/admin/empresas/empresa-usuarios/empresa-usuarios.component';
 import { CommonModule } from '@angular/common';
 import { BoardsComponent } from './pages/kanban/boards/boards/boards.component';
+import { ListsComponent } from './pages/kanban/boards/lists/lists.component';
 
 const routes: Routes = [
+  {
+    path: 'pages/kanban/boards/boards/:lista',
+    component: ListsComponent,
+    canActivate: [ AuthGuardService ]
+  },
   {
     path: 'pages/kanban/boards/boards',
     component: BoardsComponent,
@@ -89,6 +95,6 @@ const routes: Routes = [
   ],
   providers: [AuthGuardService, AdminGuardService],
   exports: [RouterModule],
-  declarations: [HomeComponent, EmpresasComponent, EmpresaUsuariosComponent, BoardsComponent],
+  declarations: [HomeComponent, EmpresasComponent, EmpresaUsuariosComponent, BoardsComponent, ListsComponent],
 })
 export class AppRoutingModule {}
