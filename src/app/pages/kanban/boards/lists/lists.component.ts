@@ -12,6 +12,7 @@ import { ListService } from 'src/app/shared/services/lists/list.service';
 import { UUID } from 'angular2-uuid';
 import { on, trigger, off } from 'devextreme/events';
 import Draggable from 'devextreme/ui/draggable';
+import { TaskService } from 'src/app/shared/services/tasks/task.service';
 
 @Component({
   selector: 'app-lists',
@@ -46,7 +47,8 @@ export class ListsComponent implements OnInit, AfterViewInit {
   constructor(
     private activeRoute: ActivatedRoute,
     private auth: AuthService,
-    private service: ListService
+    private service: ListService,
+    private taskService: TaskService
   ) {
     this.getParams();
   }
@@ -113,6 +115,7 @@ export class ListsComponent implements OnInit, AfterViewInit {
   private _removeCard(lista: any, index: number) {
     lista.editing = false
   }
+  //
 
   onDragStart(e: any) {
     e.itemData = e.fromData[e.fromIndex];

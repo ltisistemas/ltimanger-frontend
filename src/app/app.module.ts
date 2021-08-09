@@ -41,6 +41,7 @@ import { CommonModule } from '@angular/common';
 import { BoardService } from './shared/services/boards/boards.service';
 import { ListService } from './shared/services/lists/list.service';
 import { DxoAppointmentDraggingModule } from 'devextreme-angular/ui/nested';
+import { TaskService } from './shared/services/tasks/task.service';
 
 @NgModule({
   declarations: [AppComponent],
@@ -81,7 +82,8 @@ import { DxoAppointmentDraggingModule } from 'devextreme-angular/ui/nested';
     IbgeService,
     CompanyUserService,
     BoardService,
-    ListService
+    ListService,
+    TaskService,
   ],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
