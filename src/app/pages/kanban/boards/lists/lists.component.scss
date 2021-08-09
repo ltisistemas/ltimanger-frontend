@@ -7,8 +7,72 @@
   height: calc(100vh - 228px);
   overflow: hidden;
   overflow-x: auto;
+  overflow-y: auto;
 
-  .dx-card {
+  .dx-lista {
+    border-bottom: 3px solid #1ca8dd;
+    background: #3e3b3b;
+    padding-bottom: 12px;
+    padding-top: 24px;
+    padding-left: 8px;
+    border-radius: 4px;
+  }
+
+  .btn-card {
+    // background-color: #FFF;
+    color: darkgray;
+    min-height: 30px;
+    border: 1px solid darkgray;
+    border-radius: 4px;
+    margin-bottom: 8px;
+    outline: none;
+    padding: 8px;
+
+    .dx-textarea {
+      textarea {
+        color: #494646 !important;
+      }
+    }
+
+    .textarea {
+      // background: none;
+      border: none;
+      box-shadow: none;
+      height: auto;
+      margin-bottom: 4px;
+      max-height: 162px;
+      min-height: 54px;
+      overflow-y: auto;
+      padding: 0;
+      outline: none;
+      color: grey;
+
+      &:empty:not(:focus):before {
+        content: attr(data-ph);
+        color: grey;
+        font-style: italic;
+      }
+    }
+  }
+  .btn-margin {
+    margin-left: 8px;
+  }
+
+  .dx-container-item {
     height: 100%;
+
+    h4 {
+      margin-bottom: 8px;
+      font-size: 14px;
+    }
+
+    .dropzone {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+
+      padding: 8px;
+      min-width: 270px;
+    }
   }
 }

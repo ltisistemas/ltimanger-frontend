@@ -99,7 +99,7 @@ export class BoardsComponent implements OnInit {
       description: '',
       stylingMode: 'contained',
       type: 'default',
-      handle: () => this.router.navigate(['pages', 'kanban', 'boards', 'boards', data.title]),
+      handle: () => this.router.navigate(['quadros', data.id, data.title]),
     });
   }
 }

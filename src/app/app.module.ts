@@ -29,6 +29,9 @@ import {
   DxTabPanelModule,
   DxTileViewModule,
   DxButtonModule,
+  DxTextAreaModule,
+  DxDraggableModule,
+  DxListModule,
 } from 'devextreme-angular';
 import { CompanyService } from './shared/services/company/company.service';
 import { InterceptorModule } from './shared/services/interceptors/interceptor.module';
@@ -36,6 +39,8 @@ import { IbgeService } from './shared/services/generals/ibge.service';
 import { CompanyUserService } from './shared/services/company-user/company-user.service';
 import { CommonModule } from '@angular/common';
 import { BoardService } from './shared/services/boards/boards.service';
+import { ListService } from './shared/services/lists/list.service';
+import { DxoAppointmentDraggingModule } from 'devextreme-angular/ui/nested';
 
 @NgModule({
   declarations: [AppComponent],
@@ -51,6 +56,10 @@ import { BoardService } from './shared/services/boards/boards.service';
     DxTabPanelModule,
     DxTileViewModule,
     DxButtonModule,
+    DxTextAreaModule,
+    DxDraggableModule,
+    DxoAppointmentDraggingModule,
+    DxListModule,
     HttpClientModule,
     InterceptorModule,
     SideNavOuterToolbarModule,
@@ -72,6 +81,7 @@ import { BoardService } from './shared/services/boards/boards.service';
     IbgeService,
     CompanyUserService,
     BoardService,
+    ListService
   ],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

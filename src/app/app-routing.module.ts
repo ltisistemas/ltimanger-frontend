@@ -18,22 +18,32 @@ import {
   DxScrollViewModule,
   DxTabPanelModule,
   DxTileViewModule,
-  DxButtonModule
+  DxButtonModule,
+  DxTextAreaModule,
+  DxDraggableModule,
+  DxListModule
 } from 'devextreme-angular';
 import { EmpresasComponent } from './pages/admin/empresas/empresas.component';
 import { EmpresaUsuariosComponent } from './pages/admin/empresas/empresa-usuarios/empresa-usuarios.component';
 import { CommonModule } from '@angular/common';
 import { BoardsComponent } from './pages/kanban/boards/boards/boards.component';
 import { ListsComponent } from './pages/kanban/boards/lists/lists.component';
+import { DxoAppointmentDraggingModule } from 'devextreme-angular/ui/nested';
+import { ListsCreateCardComponent } from './pages/kanban/boards/lists/lists-create-card/lists-create-card.component';
 
 const routes: Routes = [
   {
-    path: 'pages/kanban/boards/boards/:lista',
+    path: 'pages/kanban/boards/lists/lists-create-card',
+    component: ListsCreateCardComponent,
+    canActivate: [ AuthGuardService ]
+  },
+  {
+    path: 'quadros/:board_id/:lista',
     component: ListsComponent,
     canActivate: [ AuthGuardService ]
   },
   {
-    path: 'pages/kanban/boards/boards',
+    path: 'quadros',
     component: BoardsComponent,
     canActivate: [ AuthGuardService ]
   },
@@ -92,9 +102,13 @@ const routes: Routes = [
     DxTabPanelModule,
     DxTileViewModule,
     DxButtonModule,
+    DxTextAreaModule,
+    DxDraggableModule,
+    DxoAppointmentDraggingModule,
+    DxListModule,
   ],
   providers: [AuthGuardService, AdminGuardService],
   exports: [RouterModule],
-  declarations: [HomeComponent, EmpresasComponent, EmpresaUsuariosComponent, BoardsComponent, ListsComponent],
+  declarations: [HomeComponent, EmpresasComponent, EmpresaUsuariosComponent, BoardsComponent, ListsComponent, ListsCreateCardComponent],
 })
 export class AppRoutingModule {}

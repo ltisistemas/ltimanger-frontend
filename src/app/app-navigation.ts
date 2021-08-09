@@ -21,10 +21,10 @@ export const navigation = [
     items: [
       {
         text: 'Quadros',
-        path: '/pages/kanban/boards/boards',
+        path: 'quadros'
       },
       {
-        text: 'Relatorios',
+        text: 'Relatorios'
       }
     ]
   },
@@ -39,9 +39,9 @@ export const navigation = [
       }
     ]
   },
-  // {
-  //   text: 'Lists',
-  //   path: '/pages/kanban/boards/lists',
-  //   icon: 'folder'
-  // },
+  {
+    text: 'Lists Create Card',
+    path: '/pages/kanban/boards/lists/lists-create-card',
+    icon: 'folder'
+  },
 ];
