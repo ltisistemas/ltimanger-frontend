@@ -1,5 +1,6 @@
 export interface CompanyModelService {
   id?: string | null,
+  _id?: string | null,
   alias?: string | null,
   razao?: string | null,
   fantasia?: string | null,

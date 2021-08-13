@@ -22,7 +22,7 @@ import { TaskService } from 'src/app/shared/services/tasks/task.service';
 export class ListsComponent implements OnInit, AfterViewInit {
   public lista = '';
   public listas: any[] = [];
-  public boradId = 0;
+  public boradId = '';
   private user: any;
   public currentTextAreaValue = ''
 
@@ -60,21 +60,29 @@ export class ListsComponent implements OnInit, AfterViewInit {
   private async getParams() {
     this.activeRoute.params.subscribe(async (params) => {
       this.lista = params.lista;
-      this.boradId = parseInt(params.board_id, 10);
+      this.boradId = params.board_id;
       this.user = this.auth.getUserLogged;
 
       const loadOptions: any = {
         userData: {
-          company_id: parseInt(this.user.company_id, 10),
+          company_id: this.user.company_id,
           company_board_id: this.boradId,
         },
       };
 
       const lists: any = await this.service.load(loadOptions);
 
-      this.listas = lists.map((list: ListsModelService) => {
+      this.listas = lists.map(async (list: ListsModelService) => {
         const cards: any[] = [];
         const object = Object.assign({ cards, uuid: UUID.UUID(), editing: false }, list);
+
+        const id: any = list._id
+        const loadOptions: any = {
+          userData: {
+            company_list_id: id,
+          },
+        };
+        // const tasks: any = await this.taskService.load(loadOptions);
 
         return object;
       });
@@ -84,18 +92,6 @@ export class ListsComponent implements OnInit, AfterViewInit {
   public addCard = (lista: any) => this._addCard(lista);
   private _addCard(lista: any) {
     lista.editing = true
-    // const card = {
-    //   id: 0,
-    //   title: '',
-    //   stylingMode: 'normal',
-    //   type: 'default',
-    //   handle: null,
-    //   icon: lista.cards.lenght > 1 ? 'btn-card' : '',
-    //   edited: true,
-    //   uuid: UUID.UUID(),
-    // };
-
-    // lista.cards.push(card);
   }
   public createCard = (lista: any) => this._createCard(lista);
   private _createCard(lista: any) {
@@ -105,9 +101,17 @@ export class ListsComponent implements OnInit, AfterViewInit {
       uuid: UUID.UUID(),
     };
 
+    if (!lista.hasOwnProperty('cards')) {
+      lista.cards = []
+    }
+
     lista.cards.push(card);
     this.currentTextAreaValue = ''
-    lista.editing = false
+    lista.editing = false;
+
+    // (async () => {
+    //   await this.taskService.store({ title: card.title, description: '' })
+    // })()
   }
 
   public removeCard = (lista: any, index: number) =>

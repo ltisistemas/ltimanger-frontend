@@ -1,5 +1,6 @@
 export interface BoardsModelService {
   id?: string | null,
+  _id?: string | null,
   title?: string | null,
   description?: string | null,
   handle?: any,

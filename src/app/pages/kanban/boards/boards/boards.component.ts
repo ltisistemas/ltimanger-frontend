@@ -53,14 +53,6 @@ export class BoardsComponent implements OnInit {
     const list = await this.service.load(loadOptions);
     list?.map((l: any) => {
       this.addBoard(l)
-      // this.boards.push({
-      //   id: l.id,
-      //   title: l.title,
-      //   description: '',
-      //   stylingMode: 'contained',
-      //   type: 'default',
-      //   handle: null,
-      // });
     });
   }
 
@@ -78,14 +70,6 @@ export class BoardsComponent implements OnInit {
     const { data, code }: any = await this.service.store(values);
     if (code === 200) {
       this.addBoard(data)
-      // this.boards.push({
-      //   id: data.id,
-      //   title: data.title,
-      //   description: '',
-      //   stylingMode: 'contained',
-      //   type: 'default',
-      //   handle: null,
-      // });
     }
 
     this.formData.title = '';
@@ -94,12 +78,12 @@ export class BoardsComponent implements OnInit {
 
   private addBoard(data: any) {
     this.boards.push({
-      id: data.id,
+      id: data._id,
       title: data.title,
       description: '',
       stylingMode: 'contained',
       type: 'default',
-      handle: () => this.router.navigate(['quadros', data.id, data.title]),
+      handle: () => this.router.navigate(['quadros', data._id, data.title]),
     });
   }
 }

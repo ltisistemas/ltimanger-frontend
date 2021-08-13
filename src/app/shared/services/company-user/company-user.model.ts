@@ -1,5 +1,6 @@
 export interface CompanyUserModelService {
   id?: string | null,
+  _id?: string | null,
   company_id?: string | null,
   contract_number?: string | null,
   contract_start_date?: string | null,
