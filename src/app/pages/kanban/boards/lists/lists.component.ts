@@ -2,6 +2,7 @@ import {
   AfterViewInit,
   Component,
   Input,
+  NgZone,
   OnInit,
   ViewChildren,
 } from '@angular/core';
@@ -13,6 +14,7 @@ import { UUID } from 'angular2-uuid';
 import { on, trigger, off } from 'devextreme/events';
 import Draggable from 'devextreme/ui/draggable';
 import { TaskService } from 'src/app/shared/services/tasks/task.service';
+import notify from 'devextreme/ui/notify';
 
 @Component({
   selector: 'app-lists',
@@ -48,7 +50,8 @@ export class ListsComponent implements OnInit, AfterViewInit {
     private activeRoute: ActivatedRoute,
     private auth: AuthService,
     private service: ListService,
-    private taskService: TaskService
+    private taskService: TaskService,
+    private _ngZone: NgZone
   ) {
     this.getParams();
   }
@@ -57,36 +60,41 @@ export class ListsComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {}
 
-  private async getParams() {
-    this.activeRoute.params.subscribe(async (params) => {
-      this.lista = params.lista;
-      this.boradId = params.board_id;
-      this.user = this.auth.getUserLogged;
+  public getParams = () => this._getParams()
+  private async _getParams() {
+    const $this = this
+    $this.activeRoute.params.subscribe(async (params) => {
+      $this.lista = params.lista;
+      $this.boradId = params.board_id;
+      $this.user = $this.auth.getUserLogged;
 
       const loadOptions: any = {
         userData: {
-          company_id: this.user.company_id,
-          company_board_id: this.boradId,
+          company_id: $this.user.company_id,
+          company_board_id: $this.boradId,
         },
       };
 
-      const lists: any = await this.service.load(loadOptions);
 
-      this.listas = lists.map(async (list: ListsModelService) => {
-        const cards: any[] = [];
-        const object = Object.assign({ cards, uuid: UUID.UUID(), editing: false }, list);
+      setTimeout(async () => {
+        $this._ngZone.runOutsideAngular(async () => {
+          $this.service.load(loadOptions).then(response => {
+            const { data, code }: any = response;
+            const lists: any[] = code === 200 ? Array.from(data) : []
 
-        const id: any = list._id
-        const loadOptions: any = {
-          userData: {
-            company_list_id: id,
-          },
-        };
-        // const tasks: any = await this.taskService.load(loadOptions);
+            $this.listas = lists.map((list: ListsModelService) => {
+              const cards: any[] = list.list_tasks ?? [];
+              const object = { ...list, cards, uuid: UUID.UUID(), editing: false }
 
-        return object;
-      });
-    });
+              delete list.list_tasks
+              return object;
+            });
+
+            $this._ngZone.run(() => {});
+          })
+        })
+      }, 1000)
+    })
   }
 
   public addCard = (lista: any) => this._addCard(lista);
@@ -96,22 +104,23 @@ export class ListsComponent implements OnInit, AfterViewInit {
   public createCard = (lista: any) => this._createCard(lista);
   private _createCard(lista: any) {
     const card = {
-      id: 0,
+      _id: UUID.UUID(),
       title: this.currentTextAreaValue,
       uuid: UUID.UUID(),
     };
 
-    if (!lista.hasOwnProperty('cards')) {
-      lista.cards = []
-    }
+    this.taskService.store(card).then((response: any) => {
+      if (response.code === 200) {
+        lista.cards.push(response.data);
+        notify('Card incluido com sucesso', 'success', 2000);
+      } else {
+        notify('Erro ao incluir o novo card. Tente novamente', 'error', 2000);
+      }
 
-    lista.cards.push(card);
-    this.currentTextAreaValue = ''
-    lista.editing = false;
+      this.currentTextAreaValue = ''
+      lista.editing = false;
+    })
 
-    // (async () => {
-    //   await this.taskService.store({ title: card.title, description: '' })
-    // })()
   }
 
   public removeCard = (lista: any, index: number) =>
@@ -119,17 +128,19 @@ export class ListsComponent implements OnInit, AfterViewInit {
   private _removeCard(lista: any, index: number) {
     lista.editing = false
   }
-  //
 
-  onDragStart(e: any) {
+  public onDragStart = (e: any) => this._onDragStart(e)
+  private _onDragStart(e: any) {
     e.itemData = e.fromData[e.fromIndex];
   }
 
-  onAdd(e: any) {
+  public onAdd = (e: any) => this._onAdd(e)
+  private _onAdd(e: any) {
     e.toData.splice(e.toIndex, 0, e.itemData);
   }
 
-  onRemove(e: any) {
+  public onRemove = (e: any) => this._onRemove(e)
+  private _onRemove(e: any) {
     e.fromData.splice(e.fromIndex, 1);
   }
 }

@@ -33,11 +33,11 @@ export class ListService {
         params,
       })
       .toPromise()
-      .then(response => {
-        const { data, code }: any = response
-        const result = Array.from(data)
-        return code === 200 ? result : null
-      });
+      // .then(response => {
+      //   const { data, code }: any = response
+      //   const result = Array.from(data)
+      //   return code === 200 ? result : null
+      // });
   }
   public async store(values: any) {
     const url = `${environment.base_url}auth/board-lists`;

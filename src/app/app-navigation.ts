@@ -38,10 +38,5 @@ export const navigation = [
         path: '/pages/admin/empresas',
       }
     ]
-  },
-  {
-    text: 'Lists Create Card',
-    path: '/pages/kanban/boards/lists/lists-create-card',
-    icon: 'folder'
-  },
+  }
 ];
