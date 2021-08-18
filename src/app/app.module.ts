@@ -32,6 +32,7 @@ import {
   DxTextAreaModule,
   DxDraggableModule,
   DxListModule,
+  DxLoadPanelModule,
 } from 'devextreme-angular';
 import { CompanyService } from './shared/services/company/company.service';
 import { InterceptorModule } from './shared/services/interceptors/interceptor.module';
@@ -61,6 +62,7 @@ import { TaskService } from './shared/services/tasks/task.service';
     DxDraggableModule,
     DxoAppointmentDraggingModule,
     DxListModule,
+    DxLoadPanelModule,
     HttpClientModule,
     InterceptorModule,
     SideNavOuterToolbarModule,

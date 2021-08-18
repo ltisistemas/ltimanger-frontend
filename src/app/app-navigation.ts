@@ -2,7 +2,8 @@ export const navigation = [
   {
     text: 'Home',
     path: '/home',
-    icon: 'home'
+    icon: 'home',
+    isCompanyUser: true,
   },
   {
     text: 'Configurações',
@@ -25,7 +26,8 @@ export const navigation = [
         path: 'quadros'
       },
       {
-        text: 'Relatorios'
+        text: 'Relatorios',
+        isCompanyUser: true,
       }
     ]
   },

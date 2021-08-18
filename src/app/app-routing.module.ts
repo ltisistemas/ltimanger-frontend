@@ -21,7 +21,8 @@ import {
   DxButtonModule,
   DxTextAreaModule,
   DxDraggableModule,
-  DxListModule
+  DxListModule,
+  DxLoadPanelModule
 } from 'devextreme-angular';
 import { EmpresasComponent } from './pages/admin/empresas/empresas.component';
 import { EmpresaUsuariosComponent } from './pages/admin/empresas/empresa-usuarios/empresa-usuarios.component';
@@ -106,6 +107,7 @@ const routes: Routes = [
     DxDraggableModule,
     DxoAppointmentDraggingModule,
     DxListModule,
+    DxLoadPanelModule
   ],
   providers: [AuthGuardService, AdminGuardService],
   exports: [RouterModule],

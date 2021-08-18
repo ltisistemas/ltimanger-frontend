@@ -26,7 +26,9 @@ export class ListsComponent implements OnInit, AfterViewInit {
   public listas: any[] = [];
   public boradId = '';
   private user: any;
-  public currentTextAreaValue = ''
+  public currentTextAreaValue = '';
+  public isLoadPanelVisible: boolean = true;
+  public isCompanyUser: boolean;
 
   public doingTasks: any[] = [
     { id: 1, text: 'Prepare 2019 Financial' },
@@ -53,16 +55,17 @@ export class ListsComponent implements OnInit, AfterViewInit {
     private taskService: TaskService,
     private _ngZone: NgZone
   ) {
+    this.isLoadPanelVisible = true;
     this.getParams();
+    this.isCompanyUser = this.auth.isCompanyUser;
   }
-  ngAfterViewInit(): void {
-  }
+  ngAfterViewInit(): void {}
 
   ngOnInit() {}
 
-  public getParams = () => this._getParams()
+  public getParams = () => this._getParams();
   private async _getParams() {
-    const $this = this
+    const $this = this;
     $this.activeRoute.params.subscribe(async (params) => {
       $this.lista = params.lista;
       $this.boradId = params.board_id;
@@ -75,31 +78,40 @@ export class ListsComponent implements OnInit, AfterViewInit {
         },
       };
 
-
       setTimeout(async () => {
         $this._ngZone.runOutsideAngular(async () => {
-          $this.service.load(loadOptions).then(response => {
+          $this.service.load(loadOptions).then((response) => {
             const { data, code }: any = response;
-            const lists: any[] = code === 200 ? Array.from(data) : []
+            const lists: any[] = code === 200 ? Array.from(data) : [];
 
             $this.listas = lists.map((list: ListsModelService) => {
               const cards: any[] = list.list_tasks ?? [];
-              const object = { ...list, cards, uuid: UUID.UUID(), editing: false }
+              const object = {
+                ...list,
+                cards,
+                uuid: UUID.UUID(),
+                editing: false,
+              };
+              object.cards.map((card) => {
+                card.list_id = list._id;
+              });
 
-              delete list.list_tasks
+              delete list.list_tasks;
               return object;
             });
 
-            $this._ngZone.run(() => {});
-          })
-        })
-      }, 1000)
-    })
+            $this._ngZone.run(() => {
+              this.isLoadPanelVisible = false;
+            });
+          });
+        });
+      }, 1000);
+    });
   }
 
   public addCard = (lista: any) => this._addCard(lista);
   private _addCard(lista: any) {
-    lista.editing = true
+    lista.editing = true;
   }
   public createCard = (lista: any) => this._createCard(lista);
   private _createCard(lista: any) {
@@ -117,29 +129,44 @@ export class ListsComponent implements OnInit, AfterViewInit {
         notify('Erro ao incluir o novo card. Tente novamente', 'error', 2000);
       }
 
-      this.currentTextAreaValue = ''
+      this.currentTextAreaValue = '';
       lista.editing = false;
-    })
-
+    });
   }
 
   public removeCard = (lista: any, index: number) =>
     this._removeCard(lista, index);
   private _removeCard(lista: any, index: number) {
-    lista.editing = false
+    lista.editing = false;
   }
 
-  public onDragStart = (e: any) => this._onDragStart(e)
+  private fromData = {};
+
+  public onDragStart = (e: any) => this._onDragStart(e);
   private _onDragStart(e: any) {
     e.itemData = e.fromData[e.fromIndex];
   }
 
-  public onAdd = (e: any) => this._onAdd(e)
+  public onAdd = (e: any) => this._onAdd(e);
   private _onAdd(e: any) {
-    e.toData.splice(e.toIndex, 0, e.itemData);
+    this.isLoadPanelVisible = true;
+    const element = <HTMLElement>e.element;
+    this.taskService
+      .update(e.itemData._id, {
+        company_list_id: element.getAttribute('data-lista-id'),
+      })
+      .then((data) => {
+        e.toData.splice(e.toIndex, 0, e.itemData);
+        console.log(data);
+        this.isLoadPanelVisible = false;
+      })
+      .catch((error) => {
+        this.isLoadPanelVisible = false;
+        console.log('> Error: ', error);
+      });
   }
 
-  public onRemove = (e: any) => this._onRemove(e)
+  public onRemove = (e: any) => this._onRemove(e);
   private _onRemove(e: any) {
     e.fromData.splice(e.fromIndex, 1);
   }

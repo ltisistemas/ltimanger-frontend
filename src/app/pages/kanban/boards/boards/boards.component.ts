@@ -18,6 +18,7 @@ export class BoardsComponent implements OnInit {
   public closeButtonOptions: any;
   public isCompanyUser: boolean
   private user: any;
+  public isLoadPanelVisible: boolean = true;
 
   constructor(
     private service: BoardService,
@@ -62,6 +63,8 @@ export class BoardsComponent implements OnInit {
     list?.map((l: any) => {
       this.addBoard(l);
     });
+
+    this.isLoadPanelVisible = false
   }
 
   public onHandleClick = (event: any) => this._onHandleClick(event);
