@@ -89,6 +89,11 @@ export class AuthService {
 
     return !!!userLogged.hasOwnProperty('company_id')
   }
+  public get isCompanyUser() {
+    const userLogged = this.getUserLogged;
+
+    return userLogged.profile === 'COMPANY_ADMIN'
+  }
 
   async getUser() {
     try {

@@ -11,7 +11,7 @@ export class CompanyService {
   dataSource: CustomStore;
   constructor(private http: HttpClient) {
     this.dataSource = new CustomStore({
-      key: 'id',
+      key: '_id',
       loadMode: 'raw',
       load: (loadOptions: DevExpress.data.LoadOptions) => this.load(loadOptions),
       insert: (values) => this.store(values),

@@ -8,6 +8,7 @@ export const navigation = [
     text: 'Configurações',
     icon: 'folder',
     isAdmin: false,
+    isCompanyUser: true,
     items: [
       {
         text: 'Usuários',

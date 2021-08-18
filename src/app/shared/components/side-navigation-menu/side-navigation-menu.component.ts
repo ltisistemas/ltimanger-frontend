@@ -52,7 +52,10 @@ export class SideNavigationMenuComponent implements AfterViewInit, OnDestroy {
       this._items = navigation
         .filter((item) => {
           const isAdmin = item.hasOwnProperty('isAdmin') ? item.isAdmin : false;
+          const isCompanyUser = item.hasOwnProperty('isCompanyUser') ? item.isCompanyUser : false;
+
           if (isAdmin && !$this.auth.isAdmin) return false;
+          if (isCompanyUser && !$this.auth.isCompanyUser) return false;
           return true;
         })
         .map((item) => {

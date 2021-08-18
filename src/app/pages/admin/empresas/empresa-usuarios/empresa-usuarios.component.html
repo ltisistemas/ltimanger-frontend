@@ -3,7 +3,7 @@
     <dx-data-grid
       #dataGrid
       id="dataGrid"
-      keyExpr="id"
+      keyExpr="_id"
       [dataSource]="datasource"
       [showBorders]="true"
       [showColumnLines]="false"
@@ -52,7 +52,7 @@
         </dxo-form>
       </dxo-editing>
 
-      <dxi-column dataField="id" caption="id" [visible]="false"></dxi-column>
+      <dxi-column dataField="_id" caption="id" [visible]="false"></dxi-column>
       <dxi-column dataField="company_id"></dxi-column>
       <dxi-column dataField="name" caption="Nome completo"></dxi-column>
       <dxi-column dataField="email" caption="E-mail"></dxi-column>

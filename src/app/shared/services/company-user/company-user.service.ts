@@ -22,7 +22,7 @@ export class CompanyUserService {
   dataSource: CustomStore;
   constructor(private http: HttpClient) {
     this.dataSource = new CustomStore({
-      key: 'id',
+      key: '_id',
       loadMode: 'raw',
       load: (loadOptions: DevExpress.data.LoadOptions) => this.load(loadOptions),
       insert: (values) => this.store(values),
@@ -65,6 +65,7 @@ export class CompanyUserService {
     let headers = new HttpHeaders()
     headers = headers.append('Content-Type', 'application/x-www-form-urlencoded')
 
+    values['company_id'] = this.company_id
     return this.http.post(url, values).toPromise()
   }
   private async update(key: any, values: any) {

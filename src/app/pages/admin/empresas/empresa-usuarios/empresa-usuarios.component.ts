@@ -23,6 +23,7 @@ export class EmpresaUsuariosComponent implements OnInit, OnChanges {
   public dsPerfil: any[];
   public dsTipoContrato: any[];
   public formData: any = {};
+  private user: any;
   @Input() empresa: CompanyModelService = {};
 
   @ViewChild(DxDataGridComponent, { static: false })
@@ -45,33 +46,35 @@ export class EmpresaUsuariosComponent implements OnInit, OnChanges {
     this.empresa = changes.empresa.currentValue;
 
     setTimeout(() => {
-      this.service.company_id = this.empresa.id;
+      this.service.company_id = this.empresa._id;
       this.refreshDataGrid();
     });
   }
 
   ngOnInit() {
-    console.log('> ', this.auth.getUserLogged, this.auth.getUserLogged.company_id)
+    this.user = this.auth.getUserLogged;
+
     if (!Object.keys(this.empresa).length) {
-      this.service.company_id = this.auth.getUserLogged.company_id;
+      this.service.company_id = this.user.company_id;
       this.datasource = this.service.dataSource;
     } else {
-      this.service.company_id = this.empresa.id;
+      this.service.company_id = this.empresa._id;
       this.datasource = this.service.dataSource;
     }
+
+    console.log('> ', this.service.company_id)
   }
 
   public onEditingStart = (evt: any) => this._onEditingStart(evt);
   private _onEditingStart(evt: any) {
-    this.formData.company_id = this.empresa.id;
+    this.formData.company_id = this.empresa._id;
   }
   public onRowInserting = (evt: any) => this._onRowInserting(evt);
   private _onRowInserting(evt: any) {
     console.log('> this.formData', this.formData);
-    evt.data.company_id = this.empresa.id;
+    evt.data.company_id = this.empresa._id;
     console.log(evt);
     evt;
-    // this.formData.company_id = this.empresa.id
   }
 
   public onToolbarPreparing = async (e: any) => this._onToolbarPreparing(e);

@@ -16,17 +16,25 @@ export class BoardsComponent implements OnInit {
   public formData: any = { title: '' };
   public emailButtonOptions: any;
   public closeButtonOptions: any;
+  public isCompanyUser: boolean
   private user: any;
 
-  constructor(private service: BoardService, private auth: AuthService, private router: Router) {
-    this.boards.push({
-      id: '0',
-      title: 'Criar novo quadro',
-      description: 'Clique aqui para criar um novo quadro',
-      stylingMode: 'contained',
-      type: 'normal',
-      handle: () => this.onHandleClick(null),
-    });
+  constructor(
+    private service: BoardService,
+    private auth: AuthService,
+    private router: Router
+  ) {
+    this.isCompanyUser = this.auth.isCompanyUser
+    if (this.isCompanyUser) {
+      this.boards.push({
+        id: '0',
+        title: 'Criar novo quadro',
+        description: 'Clique aqui para criar um novo quadro',
+        stylingMode: 'contained',
+        type: 'normal',
+        handle: () => this.onHandleClick(null),
+      });
+    }
 
     const that = this;
     this.emailButtonOptions = {
@@ -52,7 +60,7 @@ export class BoardsComponent implements OnInit {
     const loadOptions: any = { userData: { company_id: this.user.company_id } };
     const list = await this.service.load(loadOptions);
     list?.map((l: any) => {
-      this.addBoard(l)
+      this.addBoard(l);
     });
   }
 
@@ -69,7 +77,7 @@ export class BoardsComponent implements OnInit {
     };
     const { data, code }: any = await this.service.store(values);
     if (code === 200) {
-      this.addBoard(data)
+      this.addBoard(data);
     }
 
     this.formData.title = '';
