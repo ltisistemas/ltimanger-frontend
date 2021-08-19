@@ -1,11 +1,12 @@
 <dx-load-panel
-    [closeOnOutsideClick]="false"
-    shadingColor="rgba(0,0,0,0.4)"
-    [(visible)]="isLoadPanelVisible"
-    [position]="{ of: '.dx-drawer-content' }"
-    [showIndicator]="true"
-    [showPane]="true"
-    [shading]="true">
+  [closeOnOutsideClick]="false"
+  shadingColor="rgba(0,0,0,0.4)"
+  [(visible)]="isLoadPanelVisible"
+  [position]="{ of: '.dx-drawer-content' }"
+  [showIndicator]="true"
+  [showPane]="true"
+  [shading]="true"
+>
 </dx-load-panel>
 
 <span class="content-block-title">
@@ -35,10 +36,7 @@
           </dx-button>
 
           <div class="editing-card" *ngIf="lista.editing">
-            <div
-              class="btn-card dx-card"
-              autofocus="true"
-            >
+            <div class="btn-card dx-card" autofocus="true">
               <dx-text-area
                 placeholder="Adicione um titulo ao cartão"
                 [elementAttr]="{ class: 'textarea' }"
@@ -75,6 +73,7 @@
             [elementAttr]="{ class: 'dx-lista', 'data-lista-id': lista._id }"
             [searchEnabled]="true"
             searchMode="contains"
+            (onItemClick)="onItemClick($event)"
           >
             <dxo-item-dragging
               group="tasks"
@@ -88,19 +87,94 @@
           </dx-list>
         </div>
       </div>
-
-      <!-- <dx-list [dataSource]="doingTasks" [repaintChangesOnly]="true" keyExpr="id">
-        <dxo-item-dragging
-          group="tasks"
-          [data]="doingTasks"
-          [allowReordering]="true"
-          [onDragStart]="onDragStart"
-          [onAdd]="onAdd"
-          [onRemove]="onRemove"
-        >
-        </dxo-item-dragging>
-      </dx-list> -->
     </div>
   </div>
+</span>
 
+<span *ngIf="popupVisible">
+  <dx-popup
+    [width]="640"
+    [height]="480"
+    [showTitle]="false"
+    [dragEnabled]="false"
+    [closeOnOutsideClick]="false"
+    [(visible)]="popupVisible"
+  >
+    <dxi-toolbar-item
+      widget="dxButton"
+      toolbar="bottom"
+      location="after"
+      [options]="closeButtonOptions"
+    >
+    </dxi-toolbar-item>
+    <div
+      class="popup-title"
+      [ngClass]="{ editable: titleEdited }"
+      (click)="onclickTitle()"
+      *ngIf="!titleEdited"
+    >
+      {{ currentTitle }}
+    </div>
+    <input
+      type="text"
+      class="input-select"
+      *ngIf="titleEdited"
+      [(ngModel)]="selected.title"
+      autofocus="true"
+    />
+    <div class="d-flex-row" *ngIf="titleEdited">
+      <dx-button
+        stylingMode="normal"
+        text="Salvar"
+        type="default"
+        [height]="30"
+        (onClick)="saveTitle()"
+      >
+      </dx-button>
+      <dx-button
+        stylingMode="text"
+        type="default"
+        icon="close"
+        [height]="30"
+        [elementAttr]="{ class: 'btn-margin' }"
+        (onClick)="cancelTitle()"
+      >
+      </dx-button>
+    </div>
+
+    <div
+      class="popup-description"
+      (click)="onclickDescription()"
+      *ngIf="!descriptionEdited"
+    >
+      {{ selected.description }}
+    </div>
+    <dx-text-area
+      [height]="250"
+      [(value)]="selected.description"
+      [readOnly]="false"
+      placeholder="Adicione uma descrição mais detalhada"
+      *ngIf="descriptionEdited"
+      [elementAttr]="{ class: 'textarea' }"
+    ></dx-text-area>
+    <div class="d-flex-row" *ngIf="descriptionEdited">
+      <dx-button
+        stylingMode="normal"
+        text="Salvar"
+        type="default"
+        [height]="30"
+        (onClick)="saveDescription()"
+      >
+      </dx-button>
+      <dx-button
+        stylingMode="text"
+        type="default"
+        icon="close"
+        [height]="30"
+        [elementAttr]="{ class: 'btn-margin' }"
+        (onClick)="cancelDescription()"
+      >
+      </dx-button>
+    </div>
+  </dx-popup>
 </span>

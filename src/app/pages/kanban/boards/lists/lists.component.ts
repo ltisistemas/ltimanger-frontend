@@ -29,6 +29,12 @@ export class ListsComponent implements OnInit, AfterViewInit {
   public currentTextAreaValue = '';
   public isLoadPanelVisible: boolean = true;
   public isCompanyUser: boolean;
+  public popupVisible = false;
+  public currentTitle = '';
+  public titleEdited = false;
+  public closeButtonOptions: any;
+  public selected: any
+  public descriptionEdited: any;
 
   public doingTasks: any[] = [
     { id: 1, text: 'Prepare 2019 Financial' },
@@ -58,6 +64,14 @@ export class ListsComponent implements OnInit, AfterViewInit {
     this.isLoadPanelVisible = true;
     this.getParams();
     this.isCompanyUser = this.auth.isCompanyUser;
+
+    const that = this;
+    this.closeButtonOptions = {
+      text: 'Fechar',
+      onClick: function (e: any) {
+        that.popupVisible = false;
+      },
+    };
   }
   ngAfterViewInit(): void {}
 
@@ -119,6 +133,7 @@ export class ListsComponent implements OnInit, AfterViewInit {
       _id: UUID.UUID(),
       title: this.currentTextAreaValue,
       uuid: UUID.UUID(),
+      company_list_id: lista._id,
     };
 
     this.taskService.store(card).then((response: any) => {
@@ -169,5 +184,56 @@ export class ListsComponent implements OnInit, AfterViewInit {
   public onRemove = (e: any) => this._onRemove(e);
   private _onRemove(e: any) {
     e.fromData.splice(e.fromIndex, 1);
+  }
+  public onItemClick = (e: any) => this._onItemClick(e);
+  private _onItemClick(e: any) {
+    console.log(e);
+    const data = e.itemData;
+    this.currentTitle = data.title;
+    this.popupVisible = true;
+
+    const element = <HTMLElement>e.element;
+    this.selected = e.itemData
+    this.selected.company_list_id = element.getAttribute('data-lista-id')
+  }
+  public onclickTitle = () => this._onclickTitle();
+  private _onclickTitle() {
+    this.titleEdited = !this.titleEdited;
+    this.descriptionEdited = false;
+  }
+  public onclickDescription = () => this._onclickDescription();
+  private _onclickDescription() {
+    this.titleEdited = false;
+    this.descriptionEdited = !this.descriptionEdited;
+  }
+  public saveTitle = () => this._saveTitle();
+  private _saveTitle() {
+    this.isLoadPanelVisible = true;
+    console.log(this.selected)
+    this.taskService
+    .update(this.selected._id, {
+      title: this.selected.title
+    })
+    .then((data) => {
+        this.titleEdited = !this.titleEdited;
+        this.isLoadPanelVisible = false;
+      })
+      .catch((error) => {
+        this.isLoadPanelVisible = false;
+        this.titleEdited = !this.titleEdited;
+        console.log('> Error: ', error);
+      });
+  }
+  public cancelTitle = () => this._cancelTitle();
+  private _cancelTitle() {
+    this.titleEdited = !this.titleEdited;
+  }
+  public saveDescription = () => this._saveDescription();
+  private _saveDescription() {
+    this.descriptionEdited = !this.descriptionEdited;
+  }
+  public cancelDescription = () => this._cancelDescription();
+  private _cancelDescription() {
+    this.descriptionEdited = !this.descriptionEdited;
   }
 }

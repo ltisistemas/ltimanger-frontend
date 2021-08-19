@@ -74,7 +74,7 @@ export class BoardsComponent implements OnInit {
   public onHandleSave = () => this._onHandleSave();
   private async _onHandleSave() {
     const values = {
-      company_id: parseInt(this.user.company_id, 10),
+      company_id: this.user.company_id,
       title: this.formData.title,
       description: '.',
     };

@@ -31,6 +31,7 @@ import { BoardsComponent } from './pages/kanban/boards/boards/boards.component';
 import { ListsComponent } from './pages/kanban/boards/lists/lists.component';
 import { DxoAppointmentDraggingModule } from 'devextreme-angular/ui/nested';
 import { ListsCreateCardComponent } from './pages/kanban/boards/lists/lists-create-card/lists-create-card.component';
+import { FormsModule } from '@angular/forms';
 
 const routes: Routes = [
   {
@@ -85,7 +86,7 @@ const routes: Routes = [
   },
   {
     path: '**',
-    redirectTo: 'home',
+    redirectTo: 'quadros',
   },
 ];
 
@@ -93,6 +94,7 @@ const routes: Routes = [
   imports: [
     RouterModule.forRoot(routes, { useHash: true }),
     CommonModule,
+    FormsModule,
     DxDataGridModule,
     DxSelectBoxModule,
     DxDropDownBoxModule,

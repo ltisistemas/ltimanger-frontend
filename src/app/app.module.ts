@@ -43,12 +43,14 @@ import { BoardService } from './shared/services/boards/boards.service';
 import { ListService } from './shared/services/lists/list.service';
 import { DxoAppointmentDraggingModule } from 'devextreme-angular/ui/nested';
 import { TaskService } from './shared/services/tasks/task.service';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [AppComponent],
   imports: [
     BrowserModule,
     CommonModule,
+    FormsModule,
     DxPopupModule,
     DxSelectBoxModule,
     DxDropDownBoxModule,
