@@ -90,14 +90,18 @@
 }
 .popup-description {
   padding: 8px;
-  font-size: 24px;
+  font-size: 14px;
+  text-align: justify;
   font-family: "Roboto", sans-serif;
   cursor: pointer;
-  min-height: 56px;
   background: rgba(32, 32, 32, .6);
-  max-height: 250px;
   margin-top: 16px;
   border-radius: 3px;
+
+  min-height: 250px;
+  max-height: 250px;
+  overflow: hidden;
+  overflow-y: auto;
 }
 
 .d-flex-row {
@@ -105,6 +109,17 @@
   margin-top: 16px;
 
   gap: 8px;
+}
+.d-flex-column {
+  display: flex;
+  flex-direction: column;
+  margin-top: 16px;
+
+  gap: 8px;
+
+  * {
+    color: rgba(242, 242, 242, .8) !important;
+  }
 }
 .input-select {
   width: 100%;

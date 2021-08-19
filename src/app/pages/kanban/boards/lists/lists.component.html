@@ -146,9 +146,9 @@
       class="popup-description"
       (click)="onclickDescription()"
       *ngIf="!descriptionEdited"
-    >
-      {{ selected.description }}
-    </div>
+      [innerHTML]="selected.description"
+    ></div>
+    <h4>Atividades</h4>
     <dx-text-area
       [height]="250"
       [(value)]="selected.description"
@@ -176,5 +176,14 @@
       >
       </dx-button>
     </div>
+    <dx-list
+      [dataSource]="selected.task_history"
+      [height]="400"
+      [repaintChangesOnly]="true"
+      [allowItemDeleting]="false"
+      [itemDeleteMode]="'toggle'"
+      keyExpr="_id"
+      displayExpr="message">
+    </dx-list>
   </dx-popup>
 </span>

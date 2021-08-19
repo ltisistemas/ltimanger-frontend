@@ -187,7 +187,6 @@ export class ListsComponent implements OnInit, AfterViewInit {
   }
   public onItemClick = (e: any) => this._onItemClick(e);
   private _onItemClick(e: any) {
-    console.log(e);
     const data = e.itemData;
     this.currentTitle = data.title;
     this.popupVisible = true;
@@ -195,6 +194,7 @@ export class ListsComponent implements OnInit, AfterViewInit {
     const element = <HTMLElement>e.element;
     this.selected = e.itemData
     this.selected.company_list_id = element.getAttribute('data-lista-id')
+    console.log(this.selected.task_history);
   }
   public onclickTitle = () => this._onclickTitle();
   private _onclickTitle() {
@@ -209,7 +209,6 @@ export class ListsComponent implements OnInit, AfterViewInit {
   public saveTitle = () => this._saveTitle();
   private _saveTitle() {
     this.isLoadPanelVisible = true;
-    console.log(this.selected)
     this.taskService
     .update(this.selected._id, {
       title: this.selected.title
@@ -230,7 +229,21 @@ export class ListsComponent implements OnInit, AfterViewInit {
   }
   public saveDescription = () => this._saveDescription();
   private _saveDescription() {
-    this.descriptionEdited = !this.descriptionEdited;
+    this.selected.description = this.selected.description.replace(/\r?\n/g, "<br />")
+    this.isLoadPanelVisible = true;
+    this.taskService
+    .update(this.selected._id, {
+      description: this.selected.description
+    })
+    .then((data) => {
+        this.descriptionEdited = !this.descriptionEdited;
+        this.isLoadPanelVisible = false;
+      })
+      .catch((error) => {
+        this.isLoadPanelVisible = false;
+        this.descriptionEdited = !this.descriptionEdited;
+        console.log('> Error: ', error);
+      });
   }
   public cancelDescription = () => this._cancelDescription();
   private _cancelDescription() {
